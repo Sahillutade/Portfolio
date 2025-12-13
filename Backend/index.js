@@ -45,16 +45,13 @@ app.post('/mail', async(req, res) => {
     try{
         // Create email transporter
         const transporter = nodemailer.createTransport({
-            host: "smtp.gmail.com",
+            host: "smtp-relay.brevo.com",
             port: 587,
             secure: false,
             auth: {
                 user: process.env.EMAIL_USER,
                 pass: process.env.APP_PASS,
             },
-            connectionTimeout: 10000,
-            greetingTimeout: 10000,
-            socketTimeout: 10000,
         });
 
         // Verify connection first
