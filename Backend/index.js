@@ -45,16 +45,24 @@ app.post('/mail', async(req, res) => {
     try{
         // Create email transporter
         const transporter = nodemailer.createTransport({
-            service: "gmail",
+            host: "smtp.gmail.com",
+            port: 587,
+            secure: false,
             auth: {
                 user: process.env.EMAIL_USER,
                 pass: process.env.APP_PASS,
             },
+            connectionTimeout: 10000,
+            greetingTimeout: 10000,
+            socketTimeout: 10000,
         });
+
+        // Verify connection first
+        await transporter.verify();
 
         // Email options
         const mailOptions = {
-            from: sender,
+            from: `${name} <${process.env.EMAIL_USER}> `,
             to: process.env.EMAIL_USER,
             replyTo: sender,
             subject: subject,
