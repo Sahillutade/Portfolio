@@ -55,7 +55,7 @@ app.post('/mail', async(req, res) => {
         // Email options
         const mailOptions = {
             from: sender,
-            to: "lutadesahil@gmail.com",
+            to: process.env.EMAIL_USER,
             replyTo: sender,
             subject: subject,
             text: `
