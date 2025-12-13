@@ -11,7 +11,7 @@ export function Projects()
     useEffect(() => {
         const fetchProjects = async () => {
             try{
-                const res = await axios.get("http://localhost:4050/project");
+                const res = await axios.get("https://portfolio-9tu8.onrender.com/project");
                 const data = res.data;
 
                 const formatted = data.map((project) => ({

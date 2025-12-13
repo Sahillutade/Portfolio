@@ -21,7 +21,7 @@ export function Contact()
 
         try{
             const response = await axios.post(
-                "http://localhost:4050/mail",
+                "https://portfolio-9tu8.onrender.com/mail",
                 formData,
                 {
                     headers: {
