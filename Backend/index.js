@@ -42,6 +42,10 @@ app.get('/project', async (req, res) => {
 app.post('/mail', async(req, res) => {
     const { name, sender, subject, message } = req.body;
 
+    if(!sender || !sender.include("@")){
+        return res.status(400).json({ error: "Invalid sender email" });
+    }
+
     try{
         // Create email transporter
         const transporter = nodemailer.createTransport({
@@ -52,14 +56,17 @@ app.post('/mail', async(req, res) => {
                 user: process.env.EMAIL_USER,
                 pass: process.env.APP_PASS,
             },
+            connectionTimeout: 10000,
+            greetingTimeout: 10000,
+            socketTimeout: 10000,
         });
-
-        // Verify connection first
-        await transporter.verify();
 
         // Email options
         const mailOptions = {
-            from: `${name} <${process.env.EMAIL_USER}> `,
+            from: {
+                name: name,
+                address: process.env.EMAIL_USER
+            },
             to: process.env.EMAIL_USER,
             replyTo: sender,
             subject: subject,
