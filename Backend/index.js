@@ -43,7 +43,7 @@ app.get('/project', async (req, res) => {
 app.post('/mail', async(req, res) => {
     const { name, sender, subject, message } = req.body;
 
-    if(!sender || !sender.include("@")){
+    if(!sender || !sender.includes("@")){
         return res.status(400).json({ error: "Invalid sender email" });
     }
 
@@ -66,7 +66,7 @@ app.post('/mail', async(req, res) => {
         const mailOptions = {
             from: {
                 name: name,
-                address: sender,
+                address: process.env.RECEIVER_EMAIL,
             },
             to: process.env.RECEIVER_EMAIL,
             replyTo: sender,
