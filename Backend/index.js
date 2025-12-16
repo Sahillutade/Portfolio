@@ -4,6 +4,7 @@ const connectDB = require('./db');
 const {default: mongoose} = require('mongoose');
 require('dotenv').config();
 const nodemailer = require('nodemailer');
+const {default: axios} = require('axios');
 
 const app = express();
 const PORT = process.env.PORT;
@@ -42,7 +43,7 @@ app.get('/project', async (req, res) => {
 app.post('/mail', async(req, res) => {
     const { name, sender, subject, message } = req.body;
 
-    if(!sender || !sender.includes("@")){
+    /* if(!sender || !sender.includes("@")){
         return res.status(400).json({ error: "Invalid sender email" });
     }
 
@@ -90,8 +91,36 @@ app.post('/mail', async(req, res) => {
             success: false,
             error: error.message,
         });
-    } 
-});
+    } */
+
+    try {
+        await axios.post(
+            "https://api.brevo.com/v3/smtp/email",
+            {
+                sender: {
+                    name: "Portfolio Contact",
+                    email: process.env.RECEIVER_EMAIL,
+                },
+                to: [{ email: process.env.RECEIVER_EMAIL }],
+                replyTo: { email: sender },
+                subject: subject,
+                textContent: `Name: ${name}\n\n${message}`,
+            },
+            {
+                headers: {
+                "api-key": process.env.BREVO_API_KEY,
+                "Content-Type": "application/json",
+                },
+            }
+        );
+
+        res.json({ success: true });
+    } catch (err) {
+        console.error(err.response?.data || err.message);
+        res.status(500).json({ success: false });
+    }
+
+}); 
 
 app.listen(PORT);
 console.log(`Server started http://127.0.0.1:${PORT}`);

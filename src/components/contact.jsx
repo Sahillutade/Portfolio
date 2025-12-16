@@ -33,7 +33,7 @@ export function Contact()
             console.log("Backend Response: ", response.data)
             alert("Message sent successfully")
 
-            setFormData({ name: "", email: "", subject: "", message: "" })
+            setFormData({ name: "", sender: "", subject: "", message: "" })
         }
         catch(error){
             console.error("Error sending message: ", error)
