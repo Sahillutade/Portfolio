@@ -43,7 +43,7 @@ app.get('/project', async (req, res) => {
 app.post('/mail', async(req, res) => {
     const { name, sender, subject, message } = req.body;
 
-    /* if(!sender || !sender.include("@")){
+    if(!sender || !sender.include("@")){
         return res.status(400).json({ error: "Invalid sender email" });
     }
 
@@ -54,7 +54,7 @@ app.post('/mail', async(req, res) => {
             port: 587,
             secure: false,
             auth: {
-                user: process.env.EMAIL_USER,
+                user: process.env.BREVO_EMAIL,
                 pass: process.env.APP_PASS,
             },
             connectionTimeout: 10000,
@@ -66,9 +66,9 @@ app.post('/mail', async(req, res) => {
         const mailOptions = {
             from: {
                 name: name,
-                address: process.env.EMAIL_USER
+                address: sender,
             },
-            to: process.env.EMAIL_USER,
+            to: process.env.RECEIVER_EMAIL,
             replyTo: sender,
             subject: subject,
             text: `
@@ -91,35 +91,7 @@ app.post('/mail', async(req, res) => {
             success: false,
             error: error.message,
         });
-    } */
-
-    try{
-        await axios.post(
-            "https://api.brevo.com/v3/smtp/email",
-            {
-                sender: {
-                    name: name,
-                    email:sender
-                },
-                to: [{ email: process.env.EMAIL_USER }],
-                replyTo: { email: sender },
-                subject,
-                textContent: `Name: ${name}\n\n${message}`,
-            },
-            {
-                headers: {
-                    "api-key": process.env.APP_PASS,
-                    "Content-Type": "application/json"
-                }
-            }
-        );
-
-        res.json({ success: true });
-    }
-    catch(err){
-        console.error(err.response?.data || err.message);
-        res.status(500).json({ success: false });
-    }
+    } 
 });
 
 app.listen(PORT);
