@@ -4,7 +4,6 @@ const connectDB = require('./db');
 const {default: mongoose} = require('mongoose');
 require('dotenv').config();
 const nodemailer = require('nodemailer');
-const { default: axios } = require('axios');
 
 const app = express();
 const PORT = process.env.PORT;
