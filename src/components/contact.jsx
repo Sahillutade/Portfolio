@@ -112,7 +112,7 @@ export function Contact()
                         </div>
                         <div>
                             <label htmlFor="sender" className="NameField">Email</label>
-                            <input type="email" id="sender" name="sender" value={formData.email} onChange={handleChange} required className="NameFieldTxt" placeholder="your@email.com"></input>
+                            <input type="email" id="sender" name="sender" value={formData.sender} onChange={handleChange} required className="NameFieldTxt" placeholder="your@email.com"></input>
                         </div>
                         <div>
                             <label htmlFor="subject" className="NameField">Subject</label>
