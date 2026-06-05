@@ -44,7 +44,7 @@ export function Projects()
                         <div key={project.id} className="project-1" onMouseEnter={() => setHoveredProject(project.id)} onMouseLeave={() => setHoveredProject(null)}>
                             {/* Image Container */}
                             <div className="projectImage">
-                                <img src={project.image || "/placeholder.svg"} alt={project.title} className="projectImg" />
+                                <iframe src={project.image || "/placeholder.svg"} alt={project.title} className="projectImg" />
                                 <div className="imageAfter"/>
 
                                 {/* Hover Actions */}
